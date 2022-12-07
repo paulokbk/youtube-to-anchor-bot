@@ -38,7 +38,7 @@ function getDownloadAudioOptions() {
 }
 
 async function getVideoInfo(videoId) {
-  console.log(`Getting JSON video info for video id ${videoId}`);
+  console.log(`Pegado ID no Json: ${videoId}`);
   try {
     const result = await youtubedl(getVideoUrl(videoId), {
       ...youtubeDlOptions,
@@ -79,22 +79,22 @@ function parseDate(date) {
 }
 
 async function downloadThumbnail(videoId) {
-  console.log(`Downloading thumbnail for video id ${videoId}`);
+  console.log(`Baixando thumbnail do video: ${videoId}`);
   try {
     await youtubedl(getVideoUrl(videoId), getDownloaThumbnailOptions());
-    console.log(`Downloaded thumbnail for video id ${videoId}`);
+    console.log(`Thumbnail baixada: ${videoId}`);
   } catch (err) {
-    throw new Error(`Unable to download video thumbnail: ${err}`);
+    throw new Error(`Não foi possivel baixar thumbnail: ${err}`);
   }
 }
 
 async function downloadAudio(videoId) {
-  console.log(`Downloading audio for video id ${videoId}`);
+  console.log(`Baixando audio do video: ${videoId}`);
   try {
     await youtubedl(getVideoUrl(videoId), getDownloadAudioOptions());
-    console.log(`Downloaded audio for video id ${videoId}`);
+    console.log(`Audio baixado: ${videoId}`);
   } catch (err) {
-    throw new Error(`Unable to download audio: ${err}`);
+    throw new Error(`Não foi possivel baixar o audio: ${err}`);
   }
 }
 
