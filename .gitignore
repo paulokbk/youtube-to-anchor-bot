@@ -2,5 +2,10 @@ node_modules
 *.mp4
 *.m4a
 *.webm
+*mp3
+*.jpg
+episode.json
+list.json
 dist/episode*
 .env
+
