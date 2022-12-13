@@ -84,8 +84,8 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     browser = await puppeteer.launch({ 
-      args: ['--no-sandbox'], 
-      headless: env.PUPETEER_HEADLESS
+      args: ['--no-sandbox']
+
     });
     const page = await browser.newPage();
 
@@ -97,12 +97,12 @@ async function postEpisode(youtubeVideoInfo) {
 
     await navigationPromise;
 
-    console.log('Trying to log in');
+    console.log('Tentando fazer login');
     await page.type('#email', env.ANCHOR_EMAIL);
     await page.type('#password', env.ANCHOR_PASSWORD);
     await page.click('button[type=submit]');
     await navigationPromise;
-    console.log('Logged in');
+    console.log('Login feito com sucesso');
 
 
     console.log('Clicando em Novo episodio')
