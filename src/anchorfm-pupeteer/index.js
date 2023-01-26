@@ -124,25 +124,27 @@ async function postEpisode(youtubeVideoInfo) {
     
 
     console.log('Esperando upload do arquivo terminar');
-    await page.waitForTimeout(10 * 1000);
+    await page.waitForTimeout(20 * 1000);
 
 
     console.log('Adicionando titulo');
     await page.waitForSelector('#title', { visible: true });
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2* 1000);
     await page.type('#title', youtubeVideoInfo.title);
+    await page.waitForTimeout(1000);
 
     console.log('Adicionando descrição');
     await page.waitForSelector('div[role="textbox"]', { visible: true });
     const finalDescription = addUrlToDescription(youtubeVideoInfo);
     await page.type('div[role="textbox"]', `${finalDescription}  🙏`);
+    await page.waitForTimeout(1000);
 
     // if (env.SET_PUBLISH_DATE) {
     //   await setPublishDate(page, navigationPromise, youtubeVideoInfo.uploadDate);
     // }
 
     console.log('Esperando processamento do audio')
-    await page.waitForTimeout(20 * 1000)
+    await page.waitForTimeout(40 * 1000)
     await page.click('button[class="Button-sc-qlcn5g-0 loElEN"]')
 
     await navigationPromise;
