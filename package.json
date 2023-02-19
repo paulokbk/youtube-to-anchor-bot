@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "puppeteer": "16.1.0",
-    "youtube-dl-exec": "2.1.5",
+    "youtube-dl-exec": "2.2.3",
     "dotenv": "16.0.1"
   },
   "repository": {
