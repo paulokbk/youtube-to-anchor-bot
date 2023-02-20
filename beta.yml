@@ -1,0 +1,35 @@
+name: Youtube To Anchor Bot
+on:
+  push:
+    paths:
+      - 'episode.json'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+    - name: Install Dependencies
+      run: |
+        npm install
+    - name: Validate JSON syntax
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { readFileSync } = require('fs');
+          const { validate } = require('jsonschema');
+          const schema = require('./episode.schema.json');
+          const episode = JSON.parse(readFileSync('episode.json'));
+          const result = validate(episode, schema);
+          if (result.errors.length > 0) {
+            throw new Error(result.errors.join(', '));
+          }
+    - name: Run Script
+      run: |
+        npm run start
+      env:
+        ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
+        ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
