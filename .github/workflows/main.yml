@@ -15,9 +15,11 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
+          npm install jsonschema
+          sudo apt-get update
+          sudo apt-get -y install ffmpeg
       - name: Validate JSON syntax
         run: |
-          npm install jsonschema
           const { readFileSync } = require('fs');
           const { validate } = require('jsonschema');
           const schema = require('./episode.schema.json');
@@ -32,4 +34,4 @@ jobs:
         env:
           ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
           ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
-          FFMPEG_PATH: /path/to/ffmpeg
+          FFMPEG_PATH: /usr/bin/ffmpeg
