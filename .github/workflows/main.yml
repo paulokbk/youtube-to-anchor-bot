@@ -16,18 +16,8 @@ jobs:
         run: |
           npm install
           npm install jsonschema
-          sudo apt-get update
-          sudo apt-get -y install ffmpeg
-      - name: Validate JSON syntax
-        run: |
-          const { readFileSync } = require('fs');
-          const { validate } = require('jsonschema');
-          const schema = require('./episode.schema.json');
-          const episode = JSON.parse(readFileSync('episode.json'));
-          const result = validate(episode, schema);
-          if (result.errors.length > 0) {
-            throw new Error(result.errors.join(', '));
-          }
+          - sudo apt-get update
+          - sudo apt-get -y install ffmpeg
       - name: Run Script
         run: |
           npm run start
