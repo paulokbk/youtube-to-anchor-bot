@@ -12,6 +12,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '16.x'
+    - name: Setup FFmpeg
+      uses: jrottenberg/ffmpeg@v4.4.1-1
     - name: Install Dependencies
       run: |
         npm install
