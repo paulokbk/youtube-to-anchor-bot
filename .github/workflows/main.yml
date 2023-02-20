@@ -15,9 +15,8 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          npm install jsonschema
-          - sudo apt-get update
-          - sudo apt-get -y install ffmpeg
+          sudo apt-get update
+          sudo apt-get -y install ffmpeg
       - name: Run Script
         run: |
           npm run start
