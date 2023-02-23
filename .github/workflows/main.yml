@@ -1,5 +1,7 @@
 name: Youtube To Anchor Bot
 on:
+  schedule:
+    - cron: '0 13 * * *' # agendamento para as 13 horas todos os dias
   push:
     paths:
       - 'episode.json'
