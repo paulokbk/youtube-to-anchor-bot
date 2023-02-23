@@ -17,11 +17,19 @@ jobs:
           npm install
           sudo apt-get update
           sudo apt-get -y install ffmpeg
-      - name: Get Last Video ID
+      - name: Get video ID
+        id: get-video-id
         run: |
-          echo "::set-env name=newVideoID::$(node ./src/youtube-new-video/index.js)"
+          echo "::set-output name=video-id::$(node src/youtube-new-video/index.js)"
+      - name: Set newVideoID environment variable
+        run: echo "newVideoID=${{ steps.get-video-id.outputs.video-id }}" >> $GITHUB_ENV
       - name: Update episode.json
         run: |
-          sed -i "s/\"ids\": \[[^]]*\]/\"ids\": [\${{ env.newVideoID }}]/" episode.json
+          sed -i "s/\"videoId\": \".*\"/\"videoId\": \"${{ env.newVideoID }}\"/" episode.json
+      - name: Run Script
+        run: |
+          npm run start
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
+          ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
+          FFMPEG_PATH: /usr/bin/ffmpeg
