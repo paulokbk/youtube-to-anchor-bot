@@ -17,17 +17,14 @@ jobs:
           npm install
           sudo apt-get update
           sudo apt-get -y install ffmpeg
-      - name: Extrair lastVideoData.videoId de src/index.js
+      - name: Get last video ID
         run: |
-          LAST_VIDEO_ID=$(node -p "require('./src/index.js').lastVideoData.videoId")
-          echo "::set-output name=last_video_id::$LAST_VIDEO_ID"
-      - name: Modificar episode.json
+          echo "LAST_VIDEO_ID=$(node -p "require('./src/youtube-new-video/index.js').lastVideoData.videoId")" >> $GITHUB_ENV
+      - name: Run Script
         run: |
-          LAST_VIDEO_ID=$INPUT_LAST_VIDEO_ID
-          jq ".ids[0] = \"$LAST_VIDEO_ID\"" episode.json > episode.tmp && mv episode.tmp episode.json
+          npm run start
         env:
           ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
           ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
           FFMPEG_PATH: /usr/bin/ffmpeg
-          INPUT_LAST_VIDEO_ID: ${{ steps.extrair_last_video_id.outputs.last_video_id }}
-          
+          LAST_VIDEO_ID: ${{ env.LAST_VIDEO_ID }}
