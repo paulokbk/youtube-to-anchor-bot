@@ -9,7 +9,7 @@ const CheckNewVideo = async () => {
         const ytInitialData = youtubePage.data.trim().split("ytInitialData = ")[1];
         const ytInitialDataJson = JSON.parse(ytInitialData.split(";</script>")[0]);
         const lastVideoData = ytInitialDataJson.contents.twoColumnBrowseResultsRenderer.tabs[2].tabRenderer.content.richGridRenderer.contents[0].richItemRenderer.content.videoRenderer
-
+        var newVideoID = lastVideoData.videoId
         console.log(">>> ID DO Ultimo Video no Spotify: " + lastEpisodePublished.ids[0])
 
         console.log(">>> ID DO Ultimo Video no Youtube: " + lastVideoData.videoId)

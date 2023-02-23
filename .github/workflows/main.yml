@@ -17,14 +17,11 @@ jobs:
           npm install
           sudo apt-get update
           sudo apt-get -y install ffmpeg
-      - name: Get last video ID
+      - name: Get Last Video ID
         run: |
-          echo "LAST_VIDEO_ID=$(node -p "require('./src/youtube-new-video/index.js').lastVideoData.videoId")" >> $GITHUB_ENV
-      - name: Run Script
+          echo "::set-env name=newVideoID::$(node ./src/youtube-new-video/index.js)"
+      - name: Update episode.json
         run: |
-          npm run start
+          sed -i "s/\"ids\": \[[^]]*\]/\"ids\": [\${{ env.newVideoID }}]/" episode.json
         env:
-          ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
-          ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
-          FFMPEG_PATH: /usr/bin/ffmpeg
-          LAST_VIDEO_ID: ${{ env.LAST_VIDEO_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
