@@ -29,5 +29,5 @@ jobs:
           ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
           ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
           FFMPEG_PATH: /usr/bin/ffmpeg
-        env:
           INPUT_LAST_VIDEO_ID: ${{ steps.extrair_last_video_id.outputs.last_video_id }}
+          
