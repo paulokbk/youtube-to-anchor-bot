@@ -109,7 +109,8 @@ async function postEpisode(youtubeVideoInfo) {
 
     await page.waitForTimeout(5 * 1000)
 
-    await page.click('button[class=" styles__button___9fcnA styles__onDark___lRbIQ"]')
+    await page.click('button[class="Button-sc-y0gtbx-0 kHPvmE"]')
+    await navigationPromise
 
 
    
