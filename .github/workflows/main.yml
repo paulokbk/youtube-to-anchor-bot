@@ -30,7 +30,6 @@ jobs:
         run: |
           npm run start
       - uses: EndBug/add-and-commit@v9
-         with:
           add: 'episode.json'
           
 
