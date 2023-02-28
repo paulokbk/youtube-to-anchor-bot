@@ -29,6 +29,11 @@ jobs:
       - name: Run Script
         run: |
           npm run start
+      - uses: EndBug/add-and-commit@v9
+         with:
+          add: 'episode.json'
+          
+
         env:
           ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
           ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
