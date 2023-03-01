@@ -8,4 +8,7 @@ episode.json
 list.json
 dist/episode*
 .env
+yarn-error.log
+teste.js
+teste.json
 
