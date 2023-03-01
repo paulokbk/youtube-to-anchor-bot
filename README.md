@@ -81,4 +81,5 @@ brew install ffmpeg
 
 ## Créditos:
 
-. [Schrödinger Hat](https://github.com/Schrodinger-Hat)
+### [Schrödinger Hat](https://github.com/Schrodinger-Hat)
+  - [https://github.com/Schrodinger-Hat](https://github.com/Schrodinger-Hat/youtube-to-anchorfm)
