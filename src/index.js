@@ -33,6 +33,7 @@ function getYoutubeVideoIds() {
 }
 
 async function main() {
+
   const newVideo = await CheckNewVideo();
 
   if (newVideo) {
