@@ -84,8 +84,8 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     browser = await puppeteer.launch({ 
-      args: ['--no-sandbox'], 
-      headless: false,
+      args: ['--no-sandbox']
+      // headless: false,
     });
     const page = await browser.newPage();
 
