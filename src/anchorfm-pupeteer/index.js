@@ -114,6 +114,7 @@ async function postEpisode(youtubeVideoInfo) {
 
     await page.waitForSelector('button[class="Button-sc-y0gtbx-0 drkKrt"]', { visible: true });
 
+
     await page.click('button[class="Button-sc-y0gtbx-0 drkKrt"]')
 
 

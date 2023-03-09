@@ -38,7 +38,7 @@ async function main() {
 
   if (newVideo) {
 
-    // UpdateJSON(newVideo);
+    UpdateJSON(newVideo);
 
     const youtubeVideoIds = getYoutubeVideoIds();
 
