@@ -84,35 +84,38 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     browser = await puppeteer.launch({ 
-      args: ['--no-sandbox']
-
+      args: ['--no-sandbox'], 
+      headless: false,
     });
     const page = await browser.newPage();
 
     const navigationPromise = page.waitForNavigation();
 
-    await page.goto('https://anchor.fm/login');
+    const url = env.ANCHORFM_URL;
+
+    await page.goto(url);
 
     await page.setViewport({ width: 1600, height: 789 });
 
     await navigationPromise;
 
     console.log('Tentando fazer login');
-    await page.type('#email', env.ANCHOR_EMAIL);
-    await page.type('#password', env.ANCHOR_PASSWORD);
+    await page.waitForSelector('input[id=email]', { visible: true });
+
+    await page.type('input[id=email]', env.ANCHOR_EMAIL);
+    await page.type('input[id=password]', env.ANCHOR_PASSWORD);
     await page.click('button[type=submit]');
-    await navigationPromise;
+    await page.click('button[type=submit]');
+
     console.log('Login feito com sucesso');
 
-
+    await navigationPromise;
     console.log('Clicando em Novo episodio')
 
-    await page.waitForTimeout(5 * 1000)
+    await page.waitForSelector('button[class="Button-sc-y0gtbx-0 drkKrt"]', { visible: true });
 
-    await page.click('button[class=" styles__button___9fcnA styles__onDark___lRbIQ"]')
+    await page.click('button[class="Button-sc-y0gtbx-0 drkKrt"]')
 
-
-   
 
     console.log('Fazendo upload do arquivo')
 
@@ -124,7 +127,7 @@ async function postEpisode(youtubeVideoInfo) {
     
 
     console.log('Esperando upload do arquivo terminar');
-    await page.waitForTimeout(20 * 1000);
+    await page.waitForTimeout(30 * 1000)
 
 
     console.log('Adicionando titulo');
@@ -144,9 +147,9 @@ async function postEpisode(youtubeVideoInfo) {
     // }
 
     console.log('Esperando processamento do audio')
-    await page.waitForTimeout(40 * 1000)
-    await page.click('button[class="Button-sc-qlcn5g-0 loElEN"]')
+    await page.waitForTimeout(30 * 1000)
 
+    await page.click('button[class="Button-sc-qlcn5g-0 loElEN"]')
     await navigationPromise;
 
     // const saveDraftOrPublishOrScheduleButtonDescription = getSaveDraftOrPublishOrScheduleButtonDescription();
