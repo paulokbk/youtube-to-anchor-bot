@@ -2,7 +2,8 @@ name: Youtube To Anchor Bot
 on:
   push:
     branches:
-      - main
+      - master
+      - beta
     paths:
       - 'episode.json'
 jobs:
