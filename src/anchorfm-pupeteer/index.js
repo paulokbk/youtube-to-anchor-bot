@@ -84,11 +84,12 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     browser = await puppeteer.launch();
+    
     const page = await browser.newPage();
 
     const navigationPromise = page.waitForNavigation();
 
-    const url = env.ANCHORFM_URL;
+    const url = 'https://podcasters.spotify.com/pod/login'
 
     await page.goto(url);
 
