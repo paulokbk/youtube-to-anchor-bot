@@ -1,7 +1,10 @@
 name: Youtube To Anchor Bot
 on:
-  schedule:
-    - cron: '0 2,17 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - 'episode.json'
 jobs:
   build:
     runs-on: ubuntu-latest
