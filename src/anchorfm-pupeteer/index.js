@@ -84,7 +84,9 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch({
+      headless: true,
+    });
     
     const page = await browser.newPage();
 
@@ -124,11 +126,8 @@ async function postEpisode(youtubeVideoInfo) {
     const inputFile = await page.$('input[type=file]')
 
     await inputFile.uploadFile(env.AUDIO_FILE);
-    
 
-    console.log('Esperando upload do arquivo terminar');
-    await page.waitForTimeout(30 * 1000)
-
+    await navigationPromise;
 
     console.log('Adicionando titulo');
     await page.waitForSelector('#title', { visible: true });
@@ -146,7 +145,7 @@ async function postEpisode(youtubeVideoInfo) {
     // }
 
     console.log('Esperando processamento do audio')
-    await page.waitForTimeout(60 * 1000)
+    await page.waitForTimeout(120 * 1000)
 
     await page.click('button[class="Button-sc-qlcn5g-0 loElEN"]')
     await navigationPromise;
