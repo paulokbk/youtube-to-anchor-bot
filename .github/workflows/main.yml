@@ -23,3 +23,9 @@ jobs:
           ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
           ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
           FFMPEG_PATH: /usr/bin/ffmpeg
+      - name: Add and commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Atualizado via GitHub Action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
