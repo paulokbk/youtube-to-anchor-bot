@@ -113,10 +113,10 @@ async function postEpisode(youtubeVideoInfo) {
     await navigationPromise;
     console.log('Clicando em Novo episodio')
 
-    await page.waitForSelector('button[class="Button-sc-y0gtbx-0 drkKrt"]', { visible: true });
+    await page.waitForSelector('button[class="Button-sc-y0gtbx-0 fUvxCx"]', { visible: true });
 
 
-    await page.click('button[class="Button-sc-y0gtbx-0 drkKrt"]')
+    await page.click('button[class="Button-sc-y0gtbx-0 fUvxCx"]')
 
 
     console.log('Fazendo upload do arquivo')
@@ -149,7 +149,10 @@ async function postEpisode(youtubeVideoInfo) {
     console.log('Esperando processamento do audio')
     await page.waitForTimeout(150 * 1000)
 
-    await page.click('button[class="Button-sc-qlcn5g-0 loElEN"]')
+    //esperar o botao Button-sc-qlcn5g-0 hWxHrB ficar disponivel
+    await page.waitForSelector('button[class="Button-sc-qlcn5g-0 hWxHrB"]', { visible: true });
+    await page.click('button[class="Button-sc-qlcn5g-0 hWxHrB"]')
+
     await navigationPromise;
 
     await page.waitForTimeout(2 * 1000)
