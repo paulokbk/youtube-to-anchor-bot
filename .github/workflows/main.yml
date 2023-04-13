@@ -1,7 +1,11 @@
 name: Youtube To Anchor Bot
 on:
-    schedule:
-      - cron: '0 2,17 * * *'
+  push:
+    branches:
+      - beta
+      - test
+    paths:
+      - "episode.json"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: "16.x"
       - name: Install Dependencies
         run: |
           npm install
@@ -26,6 +30,6 @@ jobs:
       - name: Add and commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: 'Atualizado via GitHub Action'
+          message: "Atualizado via GitHub Action"
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
