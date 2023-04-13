@@ -83,7 +83,9 @@ async function postEpisode(youtubeVideoInfo) {
   let browser;
   try {
     console.log('Iniciando puppeteer');
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch({
+      headless: false,
+    });
     
     const page = await browser.newPage();
 
@@ -108,17 +110,24 @@ async function postEpisode(youtubeVideoInfo) {
     console.log('Login feito com sucesso');
 
     await navigationPromise;
+
     console.log('Clicando em Novo episodio')
 
-    await page.waitForSelector('button[class="Button-sc-y0gtbx-0 drkKrt"]', { visible: true });
+    await page.waitForTimeout(5 * 1000)
 
+    const buttons = await page.$$('button');
 
-    await page.click('button[class="Button-sc-y0gtbx-0 drkKrt"]')
-
+    for (let i = 0; i < buttons.length; i++) {
+      const buttonText = await buttons[i].evaluate(b => b.innerText);
+      if (buttonText.includes('New Episode')) {
+        await buttons[i].click();
+        break;
+      }
+    }
 
     console.log('Fazendo upload do arquivo')
 
-    await page.waitForTimeout(3 * 1000)
+    await page.waitForTimeout(60 * 1000)
 
     const inputFile = await page.$('input[type=file]')
 
@@ -126,7 +135,7 @@ async function postEpisode(youtubeVideoInfo) {
     
 
     console.log('Esperando upload do arquivo terminar');
-    await page.waitForTimeout(30 * 1000)
+    await page.waitForTimeout(60 * 1000)
 
 
     console.log('Adicionando titulo');
@@ -145,11 +154,23 @@ async function postEpisode(youtubeVideoInfo) {
     //   await setPublishDate(page, navigationPromise, youtubeVideoInfo.uploadDate);
     // }
 
-    console.log('Esperando processamento do audio')
-    await page.waitForTimeout(30 * 1000)
 
-    await page.click('button[class="Button-sc-qlcn5g-0 loElEN"]')
+    console.log('Esperando processamento do audio')
+    await page.waitForTimeout(120 * 1000)
+    
+    const buttons2 = await page.$$('button');
+    
+    for (let i = 0; i < buttons2.length; i++) {
+      const buttonText = await buttons2[i].evaluate(b => b.innerText);
+      if (buttonText.includes('Publish now')) {
+        await buttons2[i].click();
+        break;
+      }
+    }
+
     await navigationPromise;
+
+    await page.waitForTimeout(5 * 1000)
 
     // const saveDraftOrPublishOrScheduleButtonDescription = getSaveDraftOrPublishOrScheduleButtonDescription();
     // console.log(`-- ${saveDraftOrPublishOrScheduleButtonDescription.message}`);
