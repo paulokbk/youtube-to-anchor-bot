@@ -1,7 +1,9 @@
 name: Youtube To Anchor Bot
 on:
-    schedule:
-      - cron: '0 1,18 * * *'
+  schedule:
+    - cron: '0 2 * * 6' # sábado às 23:00 (horário de Brasília)
+    - cron: '0 17,2 * * 0' # domingo às 14:00 e 23:00 (horário de Brasília)
+    - cron: '0 2 * * 4' # quarta-feira às 23:00 (horário de Brasília)
 jobs:
   build:
     runs-on: ubuntu-latest
