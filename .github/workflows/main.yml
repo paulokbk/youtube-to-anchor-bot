@@ -1,4 +1,4 @@
-name: ${{ process.env.TITLE }}
+name: Anchor.fm Updater
 on:
   schedule:
     - cron: '0 2 * * 6' # sábado às 23:00 (horário de Brasília)
