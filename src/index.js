@@ -49,9 +49,6 @@ async function main() {
       console.log(`Descrição: ${description}`);
       console.log(`Data de Upload: ${JSON.stringify(uploadDate)}`);
 
-      //armazenar title no como variavel de ambiente
-      process.env.TITLE = title;
-
       await Promise.all([
         downloadThumbnail(youtubeVideoId),
         downloadAudio(youtubeVideoId),
