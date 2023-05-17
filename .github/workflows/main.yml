@@ -1,4 +1,4 @@
-name: Youtube To Anchor Bot
+name: ${{ process.env.TITLE }}
 on:
   schedule:
     - cron: '0 2 * * 6' # sábado às 23:00 (horário de Brasília)
