@@ -6,6 +6,13 @@ on:
     - cron: '0 2 * * 0' # domingo as 23:00 (horário de Brasília)
     - cron: '0 15 * * 1' # segunda-feira às 12:00 (horário de Brasília) 
     - cron: '0 2 * * 4' # quarta-feira às 23:00 (horário de Brasília)
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
