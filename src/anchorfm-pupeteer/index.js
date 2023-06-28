@@ -7,77 +7,34 @@ function addUrlToDescription(youtubeVideoInfo) {
     : youtubeVideoInfo.description;
 }
 
-// async function setPublishDate(page, navigationPromise, date) {
-//   console.log('-- Setting publish date');
-//   const publishDateButtonSelector = '//span[contains(text(),"Publish date:")]/following-sibling::button';
-//   const [publishDateButton] = await page.$x(publishDateButtonSelector);
-//   await publishDateButton.click();
-//   await navigationPromise;
+async function click_father(label, element, page) {
+  const l = await page.$(label);
+  const e = await l.$(element);
+  if (e) {
+    await e.click();
+    await page.waitForTimeout(2 * 1000);
 
-//   await resetDatePickerToSelectYears(page, navigationPromise);
-//   await selectYearInDatePicker(page, navigationPromise, date.year);
-//   await selectMonthInDatePicker(page, navigationPromise, date.month);
-//   await selectDayInDatePicker(page, navigationPromise, date.day);
+  } else {
+    console.log('Elemento não encontrado');
+  }
+}
 
-//   const confirmButtonSelector = '//span[contains(text(),"Confirm")]/parent::button';
-//   const [confirmButton] = await page.$x(confirmButtonSelector);
-//   await confirmButton.click();
-//   await navigationPromise;
-// }
+async function clickTagText(tag, text, page) {
+  const elements = await page.$$(tag);
 
-// async function resetDatePickerToSelectYears(page, navigationPromise) {
-//   for (let i = 0; i < 2; i += 1) {
-//     const datePickerSwitchButtonSelector = 'th[class="rdtSwitch"]';
-//     const datePickerSwitchButton = await page.$(datePickerSwitchButtonSelector);
-//     await datePickerSwitchButton.click();
-//     await navigationPromise;
-//   }
-// }
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
+    const elementText = await element.evaluate(el => el.innerText);
 
-// async function selectYearInDatePicker(page, navigationPromise, year) {
-//   const rdtPrev = await page.$('th[class="rdtPrev"]');
-//   let currentLowestYear = await page.$eval('tbody > tr:first-child > td:first-child', (e) =>
-//     e.getAttribute('data-value')
-//   );
-//   while (parseInt(currentLowestYear, 10) > parseInt(year, 10)) {
-//     await rdtPrev.click();
-//     await navigationPromise;
+    if (elementText.includes(text)) {
+      await element.click();
+      return; // Encerra a função após clicar no elemento
+    }
+  }
 
-//     currentLowestYear = await page.$eval('tbody > tr:first-child > td:first-child', (e) =>
-//       e.getAttribute('data-value')
-//     );
-//   }
+  console.log(`Elemento com a tag "${tag}" e texto "${text}" não encontrado`);
 
-//   const rdtNext = await page.$('th[class="rdtNext"]');
-//   let currentHighestYear = await page.$eval('tbody > tr:last-child > td:last-child', (e) =>
-//     e.getAttribute('data-value')
-//   );
-//   while (parseInt(currentHighestYear, 10) < parseInt(year, 10)) {
-//     await rdtNext.click();
-//     await navigationPromise;
-
-//     currentHighestYear = await page.$eval('tbody > tr:last-child > td:last-child', (e) => e.getAttribute('data-value'));
-//   }
-
-//   const tdYear = await page.$(`tbody > tr > td[data-value="${year}"]`);
-//   await tdYear.click();
-//   await navigationPromise;
-// }
-
-// async function selectMonthInDatePicker(page, navigationPromise, month) {
-//   const [tdMonth] = await page.$x(`//tbody/tr/td[contains(text(),"${month}")]`);
-//   await tdMonth.click();
-//   await navigationPromise;
-// }
-
-// async function selectDayInDatePicker(page, navigationPromise, day) {
-//   const dayWithRemovedZeroPad = parseInt(day, 10);
-//   const tdDay = await page.$(
-//     `tbody > tr > td[data-value="${dayWithRemovedZeroPad}"][class*="rdtDay"]:not([class*="rdtOld"]:not([class*="rtdNew"])`
-//   );
-//   await tdDay.click();
-//   await navigationPromise;
-// }
+}
 
 async function postEpisode(youtubeVideoInfo) {
   let browser;
@@ -86,7 +43,7 @@ async function postEpisode(youtubeVideoInfo) {
     browser = await puppeteer.launch({
       headless: false,
     });
-    
+
     const page = await browser.newPage();
 
     const navigationPromise = page.waitForNavigation();
@@ -111,37 +68,26 @@ async function postEpisode(youtubeVideoInfo) {
 
     await navigationPromise;
 
-    console.log('Clicando em Novo episodio')
+    await page.goto("https://podcasters.spotify.com/pod/dashboard/episode/wizard")
 
-    await page.waitForTimeout(5 * 1000)
+    await navigationPromise;
 
-    const buttons = await page.$$('button');
-
-    for (let i = 0; i < buttons.length; i++) {
-      const buttonText = await buttons[i].evaluate(b => b.innerText);
-      if (buttonText.includes('New Episode')) {
-        await buttons[i].click();
-        break;
-      }
-    }
-
-    console.log('Fazendo upload do arquivo')
-
-    await page.waitForTimeout(60 * 1000)
+    await page.waitForTimeout(20 * 1000)
 
     const inputFile = await page.$('input[type=file]')
 
     await inputFile.uploadFile(env.AUDIO_FILE);
-    
+
 
     console.log('Esperando upload do arquivo terminar');
-    await page.waitForTimeout(60 * 1000)
+
+    await page.waitForTimeout(20 * 1000)
 
 
     console.log('Adicionando titulo');
-    await page.waitForSelector('#title', { visible: true });
-    await page.waitForTimeout(2* 1000);
-    await page.type('#title', youtubeVideoInfo.title);
+    await page.waitForSelector('#title-input', { visible: true });
+    await page.waitForTimeout(2 * 1000);
+    await page.type('#title-input', youtubeVideoInfo.title);
     await page.waitForTimeout(1000);
 
     console.log('Adicionando descrição');
@@ -150,35 +96,38 @@ async function postEpisode(youtubeVideoInfo) {
     await page.type('div[role="textbox"]', `${finalDescription}  🙏`);
     await page.waitForTimeout(1000);
 
-    // if (env.SET_PUBLISH_DATE) {
-    //   await setPublishDate(page, navigationPromise, youtubeVideoInfo.uploadDate);
-    // }
-
-
-    console.log('Esperando processamento do audio')
-    await page.waitForTimeout(120 * 1000)
-    
-    const buttons2 = await page.$$('button');
-    
-    for (let i = 0; i < buttons2.length; i++) {
-      const buttonText = await buttons2[i].evaluate(b => b.innerText);
-      if (buttonText.includes('Publish now')) {
-        await buttons2[i].click();
-        break;
-      }
+    console.log("Aceitando Cookies")
+    const closeButton = await page.$('.onetrust-close-btn-handler.onetrust-close-btn-ui.banner-close-button.ot-close-icon');
+    if (closeButton) {
+      await closeButton.click();
+    } else {
+      console.log('Botão de fechar não encontrado');
     }
-
-    await navigationPromise;
 
     await page.waitForTimeout(5 * 1000)
 
-    // const saveDraftOrPublishOrScheduleButtonDescription = getSaveDraftOrPublishOrScheduleButtonDescription();
-    // console.log(`-- ${saveDraftOrPublishOrScheduleButtonDescription.message}`);
+    console.log("Inserindo data da publicação")
+    await click_father('label[for="publish-date-now"]', 'span', page)
 
-    // const [saveDraftOrPublishOrScheduleButton] = await page.$x(saveDraftOrPublishOrScheduleButtonDescription.xpath);
-    // await saveDraftOrPublishOrScheduleButton.click();
-    // await navigationPromise;
+    await page.waitForTimeout(5 * 1000)
 
+    console.log("Inserindo tipo de conteudo")
+    await click_father('label[for="explicit-content"]', 'span', page)
+
+    await page.waitForTimeout(5 * 1000)
+
+    console.log("Clicando no botão next da primeira pagina")
+    await page.click('button[type=submit]');
+    await page.waitForTimeout(20 * 1000)
+
+    console.log("Clicando no botão next da segunda pagina")
+    await clickTagText('span', 'Next', page);
+    await page.waitForTimeout(20 * 1000)
+
+    console.log("Clicando no botão Publish da terceiro pagina")
+    await clickTagText('span', 'Publish', page);
+
+    await page.waitForTimeout(20 * 1000)
 
   } catch (err) {
     throw new Error(`Não foi possivel postar o podcast: ${err}`)
