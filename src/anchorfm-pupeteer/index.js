@@ -110,7 +110,7 @@ async function postEpisode(youtubeVideoInfo) {
     await page.waitForTimeout(5 * 1000)
 
     console.log("Inserindo tipo de conteudo")
-    await click_father('label[for="explicit-content"]', 'span', page)
+    await click_father('label[for="no-explicit-content"]', 'span', page)
 
     await page.waitForTimeout(5 * 1000)
 
