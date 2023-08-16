@@ -40,7 +40,9 @@ async function postEpisode(youtubeVideoInfo) {
   let browser;
   try {
     console.log('Iniciando puppeteer');
-    browser = await puppeteer.launch({});
+    browser = await puppeteer.launch({
+      headless: false,
+    });
 
     const page = await browser.newPage();
 
@@ -53,6 +55,20 @@ async function postEpisode(youtubeVideoInfo) {
     await page.setViewport({ width: 1600, height: 789 });
 
     await navigationPromise;
+
+    console.log('Página carregada')
+
+    //clicar no botao com class Button-sc-y0gtbx-0 gatUBB
+    // console.log('Clicando no botão de login com email')
+    // await page.waitForSelector('button[class=Button-sc-y0gtbx-0 gatUBB]', { visible: true });
+    // await page.click('button[class=Button-sc-y0gtbx-0 gatUBB]');
+    // await page.waitForTimeout(2 * 1000);
+
+    //clicar no botao que tenha o texto "Log in with email"
+    console.log('Clicando no botão de login com email')
+    await clickTagText('span', 'Log in with email', page);
+    await page.waitForTimeout(2 * 1000);
+
 
     console.log('Tentando fazer login');
     await page.waitForSelector('input[id=email]', { visible: true });
