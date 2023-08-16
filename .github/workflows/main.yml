@@ -1,4 +1,4 @@
-name: Youtube To Anchor Bot
+name: Anchor.fm Updater
 on:
   push:
     branches:
