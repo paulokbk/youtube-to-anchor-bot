@@ -65,10 +65,10 @@ async function main() {
 
       console.log(`>>>>> Episodio ${title} postado com sucesso <<<<<`);
 
-      const updateDate = await updateDate()
+      const updateDateAnchor = await updateDate()
 
 
-      if (updateDate.type) {
+      if (updateDateAnchor.type) {
 
         console.log(">>>>> Data do episodio atualizada com sucesso <<<<<")
 
