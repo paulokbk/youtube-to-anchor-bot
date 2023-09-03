@@ -70,11 +70,11 @@ async function main() {
 
       if (updateDateAnchor.type) {
 
-        console.log(">>>>> Data do episodio atualizada com sucesso <<<<<")
+        console.log(">>>>> Data do episodio atualizada com sucesso <<<<<", updateDateAnchor.response)
 
       } else {
 
-        console.log(">>>>> Erro ao atualizar data do episodio <<<<<")
+        console.log(">>>>> Erro ao atualizar data do episodio <<<<<", updateDateAnchor.response)
 
       }
 

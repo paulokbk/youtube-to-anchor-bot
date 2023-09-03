@@ -78,7 +78,7 @@ const updateDate = async () => {
 
         return {
             type: false,
-            error: error
+            response: error
         }
     }
 
