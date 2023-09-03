@@ -5,7 +5,6 @@ node_modules
 *mp3
 *.jpg
 list.json
-episode.json
 dist/episode*
 .env
 yarn-error.log
