@@ -4,13 +4,10 @@ node_modules
 *.webm
 *mp3
 *.jpg
-episode.json
 list.json
 dist/episode*
 .env
 yarn-error.log
 teste.js
 teste.json
-.github
-```
 
