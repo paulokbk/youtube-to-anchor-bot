@@ -1,4 +1,4 @@
-name: Povo de Deus Podcast
+name: Povo de Deus Podcast - Multiple Uploads
 on:
   push:
     branches:
