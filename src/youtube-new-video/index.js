@@ -28,7 +28,7 @@ const CheckNewVideo = async () => {
 
 const UpdateJSON = async (newID) => {
     lastEpisodePublished.ids[0] = newID
-    console.log("Insirindo novo ID no JSON")
+    console.log("Inserindo novo ID no JSON")
     fs.writeFileSync("./episode.json", JSON.stringify(lastEpisodePublished, null, 2))
 }
 

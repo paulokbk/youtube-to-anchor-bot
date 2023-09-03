@@ -48,7 +48,7 @@ async function getVideoInfo(videoId) {
       title: result.title,
       description: result.description,
       url: result.original_url,
-      uploadDate: parseDate(result.upload_date),
+      uploadDate: result.upload_date,
     };
   } catch (err) {
     throw new Error(`Unable to get video info: ${err}`);
