@@ -44,11 +44,12 @@ async function getVideoInfo(videoId) {
       ...youtubeDlOptions,
       dumpSingleJson: true,
     });
+    console.log("🚀 ~ file: index.js:47 ~ result ~ result:", result)
     return {
       title: result.title,
       description: result.description,
       url: result.original_url,
-      uploadDate: parseDate(result.upload_date),
+      uploadDate: result.upload_date,
     };
   } catch (err) {
     throw new Error(`Unable to get video info: ${err}`);
