@@ -27,7 +27,7 @@ const makeDate = (date, title) => {
 
 
 
-export const updateDate = async () => {
+const updateDate = async () => {
 
     try {
 
@@ -83,4 +83,5 @@ export const updateDate = async () => {
 
 }
 
+module.exports = { updateDate }
 

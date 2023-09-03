@@ -1,4 +1,5 @@
-name: Anchor.fm Updater
+
+name: Povo de Deus Podcast
 on:
   push:
     branches:
