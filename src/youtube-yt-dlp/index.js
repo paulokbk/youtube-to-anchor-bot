@@ -44,7 +44,6 @@ async function getVideoInfo(videoId) {
       ...youtubeDlOptions,
       dumpSingleJson: true,
     });
-    console.log("🚀 ~ file: index.js:47 ~ result ~ result:", result)
     return {
       title: result.title,
       description: result.description,

@@ -3,11 +3,13 @@ const { getVideoInfo } = require('../youtube-yt-dlp');
 
 const videoId = require("../../episode.json");
 
-const videoInfo = getVideoInfo(videoId)
+const videoInfo = getVideoInfo(videoId.ids[0])
 
 const makeDate = (date, title) => {
 
     const formatedDate = ''
+
+    const videoInfo = getVideoInfo(videoId.ids[0])
 
     const year = date.substring(0, 4)
     const month = date.substring(5, 7)
