@@ -35,13 +35,13 @@ function getYoutubeVideoIds() {
 
 async function main() {
 
-  // const newVideo = await CheckNewVideo();
+  const newVideo = await CheckNewVideo();
 
-  const newVideo = true
+  // const newVideo = true
 
   if (newVideo) {
 
-    // UpdateJSON(newVideo);
+    UpdateJSON(newVideo);
 
     const youtubeVideoIds = getYoutubeVideoIds();
 
@@ -65,16 +65,18 @@ async function main() {
 
       console.log(`>>>>> Episodio ${title} postado com sucesso <<<<<`);
 
-      const updateDate = await updateDate()
+      console.log("Atualizando data do episodio")
+
+      const updateDateAnchor = await updateDate()
 
 
-      if (updateDate.type) {
+      if (updateDateAnchor.type) {
 
-        console.log(">>>>> Data do episodio atualizada com sucesso <<<<<")
+        console.log(">>>>> Data do episodio atualizada com sucesso <<<<<", updateDateAnchor.response)
 
       } else {
 
-        console.log(">>>>> Erro ao atualizar data do episodio <<<<<")
+        console.log(">>>>> Erro ao atualizar data do episodio <<<<<", updateDateAnchor.response)
 
       }
 
