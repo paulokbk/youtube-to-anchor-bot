@@ -65,6 +65,8 @@ async function main() {
 
       console.log(`>>>>> Episodio ${title} postado com sucesso <<<<<`);
 
+      console.log("Atualizando data do episodio")
+
       const updateDateAnchor = await updateDate()
 
 
