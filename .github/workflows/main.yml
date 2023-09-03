@@ -1,18 +1,10 @@
-name: Anchor.fm Updater
+name: Povo de Deus Podcast - Beta
 on:
-  schedule:
-    - cron: '0 2 * * 6' # sábado às 23:00 (horário de Brasília)
-    - cron: '0 17 * * 0' # domingo às 14:00 (horário de Brasília)
-    - cron: '0 2 * * 0' # domingo as 23:00 (horário de Brasília)
-    - cron: '0 15 * * 1' # segunda-feira às 12:00 (horário de Brasília) 
-    - cron: '0 2 * * 4' # quarta-feira às 23:00 (horário de Brasília)
   push:
     branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
+      - beta
+    paths:
+      - 'episode.json'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +13,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: "16.x"
       - name: Install Dependencies
         run: |
           npm install
@@ -37,6 +29,6 @@ jobs:
       - name: Add and commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: 'Atualizado via GitHub Action'
+          message: "Atualizado via GitHub Action"
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
