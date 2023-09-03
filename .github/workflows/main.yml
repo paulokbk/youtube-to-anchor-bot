@@ -1,11 +1,12 @@
-name: Youtube To Anchor Bot
+
+name: Povo de Deus Podcast
 on:
   push:
     branches:
       - beta
       - test
     paths:
-      - "episode.json"
+      - 'episode.json'
 jobs:
   build:
     runs-on: ubuntu-latest

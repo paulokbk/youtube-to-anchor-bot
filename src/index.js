@@ -9,6 +9,7 @@ const {
 } = require("./youtube-yt-dlp");
 const { postEpisode } = require("./anchorfm-pupeteer");
 const { CheckNewVideo, UpdateJSON } = require("./youtube-new-video");
+const { updateDate } = require("./date-to-update");
 
 function validateYoutubeVideoIds(ids) {
   if (!Array.isArray(ids) || ids.length === 0) {
@@ -36,6 +37,8 @@ async function main() {
 
   const newVideo = await CheckNewVideo();
 
+  // const newVideo = true
+
   if (newVideo) {
 
     UpdateJSON(newVideo);
@@ -49,15 +52,32 @@ async function main() {
       console.log(`Descrição: ${description}`);
       console.log(`Data de Upload: ${JSON.stringify(uploadDate)}`);
 
+
+
       await Promise.all([
         downloadThumbnail(youtubeVideoId),
         downloadAudio(youtubeVideoId),
       ]);
 
       console.log(`Postando Episodio ${youtubeVideoId} no AnchorFM`);
+
       await postEpisode(youtubeVideoInfo);
 
       console.log(`>>>>> Episodio ${title} postado com sucesso <<<<<`);
+
+      const updateDateAnchor = await updateDate()
+
+
+      if (updateDateAnchor.type) {
+
+        console.log(">>>>> Data do episodio atualizada com sucesso <<<<<", updateDateAnchor.response)
+
+      } else {
+
+        console.log(">>>>> Erro ao atualizar data do episodio <<<<<", updateDateAnchor.response)
+
+      }
+
     }
   } else {
 
