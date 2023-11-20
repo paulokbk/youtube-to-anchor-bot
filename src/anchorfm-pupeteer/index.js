@@ -58,13 +58,12 @@ async function postEpisode(youtubeVideoInfo) {
 
     console.log('Página carregada')
 
-    //clicar no botao com class Button-sc-y0gtbx-0 gatUBB
-    // console.log('Clicando no botão de login com email')
-    // await page.waitForSelector('button[class=Button-sc-y0gtbx-0 gatUBB]', { visible: true });
-    // await page.click('button[class=Button-sc-y0gtbx-0 gatUBB]');
-    // await page.waitForTimeout(2 * 1000);
 
-    //clicar no botao que tenha o texto "Log in with email"
+    console.log('Clicando no botão de continuar')
+    await clickTagText('button', 'Continue', page);
+    await page.waitForTimeout(2 * 1000);
+
+    
     console.log('Clicando no botão de login com email')
     await clickTagText('button', 'Log in with email', page);
     await page.waitForTimeout(2 * 1000);
