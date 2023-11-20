@@ -63,11 +63,6 @@ async function postEpisode(youtubeVideoInfo) {
     await clickTagText('button', 'Continue', page);
     await page.waitForTimeout(2 * 1000);
 
-    
-    console.log('Clicando no botão de login com email')
-    await clickTagText('button', 'Log in with email', page);
-    await page.waitForTimeout(2 * 1000);
-
 
     console.log('Tentando fazer login');
     await page.waitForSelector('input[id=email]', { visible: true });
