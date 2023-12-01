@@ -61,20 +61,20 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     browser = await puppeteer.launch({
-      // headless: false,
+      headless: false,
     });
 
     const page = await browser.newPage();
 
     const navigationPromise = page.waitForNavigation();
 
-    await page.goto('https://podcasters.spotify.com/pod/login', { waitUntil: 'networkidle2' });
+    await page.goto('https://podcasters.spotify.com/pod/login', { waitUntil: 'networkidle2', language: 'en'});
 
     await navigationPromise;
 
     console.log('Página carregada')
 
-    const wasClicked = await clickButtonWithEncoreIdAndText('buttonSecondary', 'Continuar', page);
+    const wasClicked = await clickButtonWithEncoreIdAndText('buttonSecondary', 'Continue', page);
     if (!wasClicked) {
       throw new Error('Falha ao clicar no botão "Continuar"');
     }
@@ -142,14 +142,17 @@ async function postEpisode(youtubeVideoInfo) {
 
     console.log("Clicando no botão next da primeira pagina")
     await page.click('button[type=submit]');
-    await page.waitForTimeout(20 * 1000)
+    await page.waitForTimeout(10 * 1000)
 
     console.log("Clicando no botão next da segunda pagina")
-    await clickTagText('span', 'Próximo', page);
-    await page.waitForTimeout(20 * 1000)
+    await clickButtonWithEncoreIdAndText('buttonPrimary', 'Next', page)
+    await page.waitForTimeout(10 * 1000)
 
     console.log("Clicando no botão Publish da terceiro pagina")
-    await clickTagText('span', 'Publish', page);
+    const wasClickedPublish = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Publish', page);
+    if (!wasClickedPublish) {
+      throw new Error('Falha ao clicar no botão "Publish"');
+    }
 
     await page.waitForTimeout(20 * 1000)
 
