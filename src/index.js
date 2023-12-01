@@ -67,7 +67,7 @@ async function main() {
 
       console.log("Atualizando data do episodio")
 
-      const updateDateAnchor = await updateDate()
+      const updateDateAnchor = await updateDate(youtubeVideoId)
 
 
       if (updateDateAnchor.type) {
