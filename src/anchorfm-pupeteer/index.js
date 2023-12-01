@@ -19,6 +19,23 @@ async function click_father(label, element, page) {
   }
 }
 
+async function clickButtonWithEncoreIdAndText(buttonId, buttonText, page) {
+  // Seleciona todos os botões com o data-encore-id correto.
+  const buttons = await page.$$(`button[data-encore-id="${buttonId}"]`);
+
+  for (const button of buttons) {
+    // Verifica se o botão tem o texto "Continuar".
+    if ((await page.evaluate(el => el.textContent, button)).trim() === buttonText) {
+      await button.click(); // Clica no botão encontrado.
+      return true; // Retorna verdadeiro após o clique bem-sucedido.
+    }
+  }
+
+  console.log(`Botão com ID [${buttonId}] e texto ["${buttonText}"] não encontrado.`);
+  return false; // Retorna falso se o botão com o texto especificado não for encontrado.
+}
+
+
 async function clickTagText(tag, text, page) {
   const elements = await page.$$(tag);
 
@@ -26,14 +43,17 @@ async function clickTagText(tag, text, page) {
     const element = elements[i];
     const elementText = await element.evaluate(el => el.innerText);
 
-    if (elementText.includes(text)) {
-      await element.click();
-      return; // Encerra a função após clicar no elemento
+    if (elementText === text || elementText === text.toUpperCase() || elementText === text.toLowerCase()) {
+      await Promise.all([
+        page.waitForNavigation({ waitUntil: 'networkidle0' }), // Espera pela conclusão da navegação após o clique
+        element.click(), // Clica no elemento
+      ]);
+      return true; // Retorna verdadeiro quando o clique foi realizado
     }
   }
 
   console.log(`Elemento com a tag "${tag}" e texto "${text}" não encontrado`);
-
+  return false; // Retorna falso se não encontrar e não clicar no elemento
 }
 
 async function postEpisode(youtubeVideoInfo) {
@@ -48,20 +68,18 @@ async function postEpisode(youtubeVideoInfo) {
 
     const navigationPromise = page.waitForNavigation();
 
-    const url = 'https://podcasters.spotify.com/pod/login'
-
-    await page.goto(url);
-
-    await page.setViewport({ width: 1600, height: 789 });
+    await page.goto('https://podcasters.spotify.com/pod/login', { waitUntil: 'networkidle2' });
 
     await navigationPromise;
 
     console.log('Página carregada')
 
+    const wasClicked = await clickButtonWithEncoreIdAndText('buttonSecondary', 'Continuar', page);
+    if (!wasClicked) {
+      throw new Error('Falha ao clicar no botão "Continuar"');
+    }
 
-    console.log('Clicando no botão de continuar')
-    await clickTagText('button', 'Continue', page);
-    await page.waitForTimeout(2 * 1000);
+    await page.waitForTimeout(2 * 1000)
 
 
     console.log('Tentando fazer login');
@@ -74,7 +92,7 @@ async function postEpisode(youtubeVideoInfo) {
 
     console.log('Login feito com sucesso');
 
-    await navigationPromise;
+    await page.waitForTimeout(2 * 1000)
 
     await page.goto("https://podcasters.spotify.com/pod/dashboard/episode/wizard")
 
@@ -117,8 +135,6 @@ async function postEpisode(youtubeVideoInfo) {
     console.log("Inserindo data da publicação")
     await click_father('label[for="publish-date-now"]', 'span', page)
 
-    await page.waitForTimeout(5 * 1000)
-
     console.log("Inserindo tipo de conteudo")
     await click_father('label[for="no-explicit-content"]', 'span', page)
 
@@ -129,7 +145,7 @@ async function postEpisode(youtubeVideoInfo) {
     await page.waitForTimeout(20 * 1000)
 
     console.log("Clicando no botão next da segunda pagina")
-    await clickTagText('span', 'Next', page);
+    await clickTagText('span', 'Próximo', page);
     await page.waitForTimeout(20 * 1000)
 
     console.log("Clicando no botão Publish da terceiro pagina")
