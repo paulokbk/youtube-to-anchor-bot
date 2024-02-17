@@ -68,13 +68,13 @@ async function postEpisode(youtubeVideoInfo) {
 
     const navigationPromise = page.waitForNavigation();
 
-    await page.goto('https://podcasters.spotify.com/pod/login', { waitUntil: 'networkidle2', language: 'en'});
+    await page.goto('https://podcasters.spotify.com/pod/login', { waitUntil: 'networkidle2', });
 
     await navigationPromise;
 
     console.log('Página carregada')
 
-    const wasClicked = await clickButtonWithEncoreIdAndText('buttonSecondary', 'Continue', page);
+    const wasClicked = await clickButtonWithEncoreIdAndText('buttonSecondary', 'Continuar', page);
     if (!wasClicked) {
       throw new Error('Falha ao clicar no botão "Continuar"');
     }
@@ -137,6 +137,9 @@ async function postEpisode(youtubeVideoInfo) {
 
     console.log("Inserindo tipo de conteudo")
     await click_father('label[for="no-explicit-content"]', 'span', page)
+
+    console.log("Inserindo tipo de conteudo patrocinado")
+    await click_father('label[for="no-sponsored-content"]', 'span', page)
 
     await page.waitForTimeout(5 * 1000)
 
