@@ -74,7 +74,7 @@ async function postEpisode(youtubeVideoInfo) {
 
     console.log('Página carregada')
 
-    const wasClicked = await clickButtonWithEncoreIdAndText('buttonSecondary', 'Continuar', page);
+    const wasClicked = await clickButtonWithEncoreIdAndText('buttonSecondary', 'Continue', page);
     if (!wasClicked) {
       throw new Error('Falha ao clicar no botão "Continuar"');
     }
