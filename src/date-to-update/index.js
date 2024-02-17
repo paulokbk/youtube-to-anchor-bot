@@ -29,7 +29,7 @@ const ListEpisodes = async () => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://podcasters.spotify.com/pod/api/proxy/v3/stations/webStationId:a214b6c4/episodePage?isMumsCompatible=true&limit=15&orderBy=publishOn',
+        url: 'https://podcasters.spotify.com/pod/api/proxy/v3/stations/webStationId:a214b6c4/episodePage?isMumsCompatible=true&limit=1&orderBy=publishOn',
         headers: {
             'authority': 'podcasters.spotify.com',
             'accept': '*/*',
@@ -49,6 +49,8 @@ const ListEpisodes = async () => {
 
     const response = await axios(config)
 
+    console.log("🚀 ~ ListEpisodes ~ response:", response.data)
+
     return response.data
 }
 
@@ -63,7 +65,9 @@ const updateDate = async (videoId) => {
         const videoInfo = await getVideoInfo(videoId)
         const listEpisodesAnchor = await ListEpisodes()
         const webEpisodeId = listEpisodesAnchor.items[0].webEpisodeId
+        console.log("🚀 ~ updateDate ~ webEpisodeId:", webEpisodeId)
         const publishOn = videoInfo.uploadDate
+        console.log("🚀 ~ updateDate ~ publishOn:", publishOn)
 
         const uploadDate = makeDate(publishOn, videoInfo.title)
         

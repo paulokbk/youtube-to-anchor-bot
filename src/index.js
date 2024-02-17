@@ -65,18 +65,22 @@ async function main() {
 
       console.log(`>>>>> Episodio ${title} postado com sucesso <<<<<`);
 
-      console.log("Atualizando data do episodio")
+      // console.log("Atualizando data do episodio")
 
-      const updateDateAnchor = await updateDate(youtubeVideoId)
+      // await new Promise((resolve) => setTimeout(resolve, 10000));
+
+      // const updateDateAnchor = await updateDate(youtubeVideoId)
+
+      // console.log("🚀 ~ main ~ updateDateAnchor:", updateDateAnchor)
 
 
-      if (updateDateAnchor.type) {
+      // if (updateDateAnchor.type) {
 
-        console.log(">>>>> Data do episodio atualizada com sucesso <<<<<", updateDateAnchor.response)
+      //   console.log(">>>>> Data do episodio atualizada com sucesso <<<<<", updateDateAnchor.response)
 
-      } else {
+      // } else {
 
-        console.log(">>>>> Erro ao atualizar data do episodio <<<<<", updateDateAnchor.response)
+      //   console.log(">>>>> Erro ao atualizar data do episodio <<<<<", updateDateAnchor.response)
 
       }
 
