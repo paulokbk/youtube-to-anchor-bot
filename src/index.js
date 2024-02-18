@@ -82,7 +82,7 @@ async function main() {
 
       //   console.log(">>>>> Erro ao atualizar data do episodio <<<<<", updateDateAnchor.response)
 
-      }
+      // }
 
     }
   } else {
