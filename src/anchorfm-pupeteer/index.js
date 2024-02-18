@@ -138,6 +138,9 @@ async function postEpisode(youtubeVideoInfo) {
     console.log("Inserindo tipo de conteudo")
     await click_father('label[for="no-explicit-content"]', 'span', page)
 
+    console.log("Inserindo tipo de conteudo patrocinado")
+    await click_father('label[for="no-sponsored-content"]', 'span', page)
+
     await page.waitForTimeout(5 * 1000)
 
     console.log("Clicando no botão next da primeira pagina")
