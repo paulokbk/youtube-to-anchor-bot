@@ -41,7 +41,7 @@ async function main() {
 
   if (newVideo) {
 
-    
+    await UpdateJSON(newVideo);
 
     const youtubeVideoIds = getYoutubeVideoIds();
 
@@ -64,8 +64,6 @@ async function main() {
       await postEpisode(youtubeVideoInfo);
 
       console.log(`>>>>> Episodio ${title} postado com sucesso <<<<<`);
-
-      UpdateJSON(newVideo);
 
       console.log("Atualizando data do episodio")
 
