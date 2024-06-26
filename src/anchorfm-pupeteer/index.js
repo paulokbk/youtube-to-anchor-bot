@@ -20,12 +20,11 @@ async function click_father(label, element, page) {
 }
 
 async function clickButtonWithEncoreIdAndText(buttonId, buttonText, page) {
-  // Seleciona todos os botões com o data-encore-id correto.
+  
   const buttons = await page.$$(`button[data-encore-id="${buttonId}"]`);
 
   for (const button of buttons) {
-    // Verifica se o botão tem o texto "Continuar".
-    if ((await page.evaluate(el => el.textContent, button)).trim() === buttonText) {
+    if ((await page.evaluate(el => el.textContent, button)).trim() == buttonText) {
       await button.click(); // Clica no botão encontrado.
       return true; // Retorna verdadeiro após o clique bem-sucedido.
     }
@@ -68,47 +67,39 @@ async function postEpisode(youtubeVideoInfo) {
 
     const navigationPromise = page.waitForNavigation();
 
-    await page.goto('https://podcasters.spotify.com/pod/login', { waitUntil: 'networkidle2', language: 'en'});
+    await page.goto('https://podcasters.spotify.com/pod/dashboard/episode/wizard', { waitUntil: 'networkidle2', language: 'en'});
 
     await navigationPromise;
 
-    console.log('Página carregada')
+    const wasClicked = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Continuar com o Spotify', page);
 
-    const wasClicked = await clickButtonWithEncoreIdAndText('buttonSecondary', 'Continue', page);
     if (!wasClicked) {
-      throw new Error('Falha ao clicar no botão "Continuar"');
+      throw new Error('Continue with Spotify');
     }
 
     await page.waitForTimeout(2 * 1000)
 
-
     console.log('Tentando fazer login');
-    await page.waitForSelector('input[id=email]', { visible: true });
 
-    await page.type('input[id=email]', env.ANCHOR_EMAIL);
-    await page.type('input[id=password]', env.ANCHOR_PASSWORD);
-    await page.click('button[type=submit]');
-    await page.click('button[type=submit]');
+    await page.waitForSelector('input[id=login-username]', { visible: true });
+
+    await page.type('input[id=login-username]', env.ANCHOR_EMAIL);
+    await page.type('input[id=login-password]', env.ANCHOR_PASSWORD);
+
+    await page.waitForTimeout(1 * 1000)
+    await page.click('button[id=login-button]');
 
     console.log('Login feito com sucesso');
 
-    await page.waitForTimeout(2 * 1000)
-
-    await page.goto("https://podcasters.spotify.com/pod/dashboard/episode/wizard")
-
-    await navigationPromise;
-
-    await page.waitForTimeout(20 * 1000)
-
+    await page.waitForTimeout(10 * 1000)
+    
     const inputFile = await page.$('input[type=file]')
 
     await inputFile.uploadFile(env.AUDIO_FILE);
 
-
     console.log('Esperando upload do arquivo terminar');
 
     await page.waitForTimeout(20 * 1000)
-
 
     console.log('Adicionando titulo');
     await page.waitForSelector('#title-input', { visible: true });
@@ -130,18 +121,22 @@ async function postEpisode(youtubeVideoInfo) {
       console.log('Botão de fechar não encontrado');
     }
 
-    await page.waitForTimeout(5 * 1000)
+    await page.waitForTimeout(10 * 1000)
 
     console.log("Inserindo data da publicação")
     await click_father('label[for="publish-date-now"]', 'span', page)
 
+    await page.waitForTimeout(2 * 1000)
+
     console.log("Inserindo tipo de conteudo")
     await click_father('label[for="no-explicit-content"]', 'span', page)
+
+    await page.waitForTimeout(2 * 1000)
 
     console.log("Inserindo tipo de conteudo patrocinado")
     await click_father('label[for="no-sponsored-content"]', 'span', page)
 
-    await page.waitForTimeout(5 * 1000)
+    await page.waitForTimeout(10 * 1000)
 
     console.log("Clicando no botão next da primeira pagina")
     await page.click('button[type=submit]');
