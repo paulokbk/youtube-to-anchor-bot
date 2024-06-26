@@ -41,7 +41,7 @@ async function main() {
 
   if (newVideo) {
 
-    UpdateJSON(newVideo);
+    await UpdateJSON(newVideo);
 
     const youtubeVideoIds = getYoutubeVideoIds();
 
@@ -67,7 +67,7 @@ async function main() {
 
       console.log("Atualizando data do episodio")
 
-      const updateDateAnchor = await updateDate()
+      const updateDateAnchor = await updateDate(youtubeVideoId)
 
 
       if (updateDateAnchor.type) {
