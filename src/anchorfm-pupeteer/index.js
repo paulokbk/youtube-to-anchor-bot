@@ -71,7 +71,7 @@ async function postEpisode(youtubeVideoInfo) {
 
     await navigationPromise;
 
-    const wasClicked = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Continuar com o Spotify', page);
+    const wasClicked = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Continue with Spotify', page);
 
     if (!wasClicked) {
       throw new Error('Continue with Spotify');
