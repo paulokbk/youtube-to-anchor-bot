@@ -91,7 +91,7 @@ async function postEpisode(youtubeVideoInfo) {
 
     console.log('Login feito com sucesso');
 
-    await page.waitForTimeout(10 * 1000)
+    await page.waitForTimeout(20 * 1000)
     
     const inputFile = await page.$('input[type=file]')
 
