@@ -60,7 +60,7 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     browser = await puppeteer.launch({
-      // headless: false,
+      headless: false,
     });
 
     const page = await browser.newPage();
@@ -71,7 +71,7 @@ async function postEpisode(youtubeVideoInfo) {
 
     await navigationPromise;
 
-    const wasClicked = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Continue with Spotify', page);
+    const wasClicked = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Continuar com o Spotify', page);
 
     if (!wasClicked) {
       throw new Error('Continue with Spotify');
@@ -143,11 +143,11 @@ async function postEpisode(youtubeVideoInfo) {
     await page.waitForTimeout(10 * 1000)
 
     console.log("Clicando no botão next da segunda pagina")
-    await clickButtonWithEncoreIdAndText('buttonPrimary', 'Next', page)
+    await clickButtonWithEncoreIdAndText('buttonPrimary', 'Próximo', page)
     await page.waitForTimeout(10 * 1000)
 
     console.log("Clicando no botão Publish da terceiro pagina")
-    const wasClickedPublish = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Publish', page);
+    const wasClickedPublish = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Publicar', page);
     if (!wasClickedPublish) {
       throw new Error('Falha ao clicar no botão "Publish"');
     }
