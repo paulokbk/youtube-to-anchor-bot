@@ -13,7 +13,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: '16.x'
+      - name: Set up proxy for Node.js and system
+        run: |
+          echo "proxy=http://177.11.190.84:8080" >> ~/.npmrc
+          echo "https-proxy=http://177.11.190.84:8080" >> ~/.npmrc
+          export http_proxy=http://177.11.190.84:8080
+          export https_proxy=http://177.11.190.84:8080
       - name: Install Dependencies
         run: |
           npm install
