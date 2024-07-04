@@ -60,7 +60,10 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true, devtools: false, useChrome: true, debug: false, args: [
+        //'--start-maximized',
+        //'--start-fullscreen',// you can also use
+        '--js-flags="--max_old_space_size=80" --disable-web-security', '--no-sandbox', '--disable-web-security', '--aggressive-cache-discard', '--disable-cache', '--disable-application-cache', '--disable-offline-load-stale-cache', '--disk-cache-size=0', '--disable-background-networking', '--disable-default-apps', '--disable-extensions', '--disable-sync', '--disable-translate', '--hide-scrollbars', '--metrics-recording-only', '--mute-audio', '--no-first-run', '--safebrowsing-disable-auto-update', '--ignore-certificate-errors', '--ignore-ssl-errors', '--ignore-certificate-errors-spki-list']
     });
 
     const page = await browser.newPage();
