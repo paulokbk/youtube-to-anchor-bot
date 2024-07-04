@@ -35,13 +35,9 @@ function getYoutubeVideoIds() {
 
 async function main() {
 
-  const newVideo = await CheckNewVideo();
-
-  // const newVideo = true
+  const newVideo = true
 
   if (newVideo) {
-
-    await UpdateJSON(newVideo);
 
     const youtubeVideoIds = getYoutubeVideoIds();
 

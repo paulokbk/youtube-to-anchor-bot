@@ -60,7 +60,7 @@ async function postEpisode(youtubeVideoInfo) {
   try {
     console.log('Iniciando puppeteer');
     browser = await puppeteer.launch({
-      // headless: false,
+      headless: false,
     });
 
     const page = await browser.newPage();
@@ -91,7 +91,7 @@ async function postEpisode(youtubeVideoInfo) {
 
     console.log('Login feito com sucesso');
 
-    await page.waitForTimeout(15 * 1000)
+    await page.waitForTimeout(20 * 1000)
     
     const inputFile = await page.$('input[type=file]')
 
@@ -143,11 +143,11 @@ async function postEpisode(youtubeVideoInfo) {
     await page.waitForTimeout(10 * 1000)
 
     console.log("Clicando no botão next da segunda pagina")
-    await clickButtonWithEncoreIdAndText('buttonPrimary', 'Next', page)
+    await clickButtonWithEncoreIdAndText('buttonPrimary', 'Próximo', page)
     await page.waitForTimeout(10 * 1000)
 
     console.log("Clicando no botão Publish da terceiro pagina")
-    const wasClickedPublish = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Publish', page);
+    const wasClickedPublish = await clickButtonWithEncoreIdAndText('buttonPrimary', 'Publicar', page);
     if (!wasClickedPublish) {
       throw new Error('Falha ao clicar no botão "Publish"');
     }
